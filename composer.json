@@ -1,0 +1,17 @@
+{
+  "name": "h4kuna/memoize",
+  "description": "Provide cache to memory for your class.",
+  "type": "tool",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Milan Matějček",
+      "email": "milan.matejcek@gmail.com"
+    }
+  ],
+  "autoload": {
+    "files": [
+      "MemoryStorage.php"
+    ]
+  }
+}
