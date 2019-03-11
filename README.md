@@ -52,7 +52,7 @@ class Foo
 
 class Foo
 {
-	use h4kuna\Memoize;
+	use h4kuna\Memoize\MemoryStorage;
 
 	public function loadDataFromDatabase()
 	{
