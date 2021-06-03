@@ -18,7 +18,7 @@ trait MemoryStorage
 		if (is_array($key)) {
 			$key = implode("\x00", $key);
 		}
-		if (array_key_exists($key, $this->memoryStorage) === FALSE) {
+		if (array_key_exists($key, $this->memoryStorage) === FALSE || !empty(MEMOIZE_DISABLE)) {
 			return $this->memoryStorage[$key] = $callback();
 		}
 		return $this->memoryStorage[$key];
