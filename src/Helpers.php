@@ -1,13 +1,13 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace h4kuna\Memoize;
 
 final class Helpers
 {
-	static private $checked = false;
+	static private bool $checked = false;
 
 
-	public static function bypassMemoize()
+	public static function bypassMemoize(): void
 	{
 		if (self::$checked === true) {
 			return;

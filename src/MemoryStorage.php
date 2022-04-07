@@ -1,16 +1,15 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace h4kuna\Memoize;
 
 trait MemoryStorage
 {
-	/** @var array */
-	private $memoryStorage = [];
+	/** @var array<string, mixed> */
+	private array $memoryStorage = [];
 
 
 	/**
 	 * @param string|array $key
-	 * @param callable $callback
 	 * @return mixed
 	 */
 	final protected function memoize($key, callable $callback)
