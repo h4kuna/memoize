@@ -9,9 +9,12 @@
       "email": "milan.matejcek@gmail.com"
     }
   ],
+  "require-dev": {
+    "nette/tester": "^2.0"
+  },
   "autoload": {
-    "files": [
-      "MemoryStorage.php"
-    ]
+    "psr-4": {
+      "h4kuna\\Memoize\\": "src/"
+    }
   }
 }
