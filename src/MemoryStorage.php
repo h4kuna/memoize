@@ -9,8 +9,9 @@ trait MemoryStorage
 
 
 	/**
-	 * @param string|array $key
-	 * @return mixed
+	 * @template T
+	 * @param callable(): T $callback
+	 * @return T
 	 */
 	final protected function memoize($key, callable $callback)
 	{
