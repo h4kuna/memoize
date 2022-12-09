@@ -10,7 +10,11 @@
     }
   ],
   "require-dev": {
-    "nette/tester": "^2.0"
+    "nette/tester": "^2.0",
+    "phpstan/phpstan": "^1.9"
+  },
+  "scripts": {
+    "phpstan": "./vendor/bin/phpstan analyse -l max src/"
   },
   "autoload": {
     "psr-4": {
