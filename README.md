@@ -72,3 +72,12 @@ class Foo
 }
 
 ```
+
+### Disable Memoize in tests
+
+You can disable Memoize for tests in bootstrap. 
+
+```php
+use h4kuna\Memoize\Helpers;
+Helpers::bypassMemoize();
+```
