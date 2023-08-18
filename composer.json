@@ -11,10 +11,11 @@
   ],
   "require-dev": {
     "nette/tester": "^2.0",
-    "phpstan/phpstan": "^1.9"
+    "phpstan/phpstan": "^1.9",
+    "phpstan/phpstan-strict-rules": "^1.4"
   },
   "scripts": {
-    "phpstan": "./vendor/bin/phpstan analyse -l max src/",
+    "phpstan": "./vendor/bin/phpstan analyse",
     "tests": "vendor/bin/tester -s -j 4 --colors 1 -s -C tests"
   },
   "autoload": {

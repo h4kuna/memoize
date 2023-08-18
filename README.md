@@ -73,6 +73,45 @@ class Foo
 
 ```
 
+### Static use case
+
+The similar class can be used for static class. 
+
+```php
+class Bar {
+	use h4kuna\Memoize\MemoryStorageStatic
+
+	public static function loadDataFromDatabaseByUser($userId)
+	{
+		return static::memoize([__METHOD__, $userId], function() use ($userId) {
+			return User::fetchUser($userId);
+		});
+	}
+}
+```
+
+### Use both traits
+This case is unlikely, so the names are the same. You can resolve by alias.
+
+```php
+class Baz {
+	use Memoize\MemoryStorage, Memoize\MemoryStorageStatic {
+		Memoize\MemoryStorage::memoize insteadof Memoize\MemoryStorageStatic;
+		Memoize\MemoryStorageStatic::memoize as memoizeStatic;
+	}
+	
+	public function foo(): 
+	{
+		return $this->memoize();
+	}
+	
+	public static function bar(): 
+	{
+		return static::memoizeStatic();
+	}
+}
+```
+
 ### Disable Memoize in tests
 
 You can disable Memoize for tests in bootstrap. 

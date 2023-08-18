@@ -1,0 +1,6 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Parameter \\#1 \\$key of method class@anonymous/tests/BasicBypassTest\\.php\\:17\\:\\:memoize\\(\\) expects array\\<float\\|int\\|string\\>\\|float\\|int\\|string, true given\\.$#"
+			count: 1
+			path: tests/BasicBypassTest.php

@@ -13,7 +13,10 @@ Assert::false(trait_exists(Memoize\MemoryStorage::class, false));
 
 $object = new class {
 
-	use Memoize\MemoryStorage;
+	use Memoize\MemoryStorage, Memoize\MemoryStorageStatic {
+		Memoize\MemoryStorage::memoize insteadof Memoize\MemoryStorageStatic;
+		Memoize\MemoryStorageStatic::memoize as memoizeStatic;
+	}
 
 	public function microtime(): float
 	{
@@ -22,9 +25,39 @@ $object = new class {
 		});
 	}
 
+
+	public static function microtimeStatic(): float
+	{
+		return static::memoizeStatic(__METHOD__, function (): float {
+			return microtime(true);
+		});
+	}
+
+};
+
+$object2 = new class {
+
+	use  Memoize\MemoryStorageStatic;
+
+	public static function microtimeStatic(): float
+	{
+		return static::memoize(__METHOD__, function (): float {
+			return microtime(true);
+		});
+	}
+
 };
 
 $microtime = $object->microtime();
+$microtimeStatic = $object::microtimeStatic();
+
+usleep((int) (0.1 * 1_000_000.0));
+
+$microtimeStatic2 = $object2::microtimeStatic();
+
 usleep((int) (0.1 * 1_000_000.0));
 
 Assert::same($microtime, $object->microtime());
+Assert::same($microtimeStatic, $object::microtimeStatic());
+Assert::same($microtimeStatic2, $object2::microtimeStatic());
+Assert::notSame($object::microtimeStatic(), $object2::microtimeStatic());
