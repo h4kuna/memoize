@@ -14,10 +14,7 @@ final class Helpers
 	 */
 	public static function resolveKey($key): string
 	{
-		if (is_array($key)) {
-			return implode("\x00", $key);
-		}
-		return (string) $key;
+		return is_array($key) ? implode("\x00", $key) : (string) $key;
 	}
 
 
