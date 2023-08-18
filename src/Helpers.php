@@ -7,6 +7,9 @@ final class Helpers
 	static private bool $checked = false;
 
 
+	/**
+	 * This is only for tests
+	 */
 	public static function bypassMemoize(): void
 	{
 		if (self::$checked === true) {
@@ -16,7 +19,21 @@ final class Helpers
 		}
 
 		self::$checked = true;
-		require __DIR__ . '/../bypass/MemoryStorage.php';
+
+		eval(<<<TRAIT
+		namespace h4kuna\Memoize;
+		
+		trait MemoryStorage
+		{
+		
+			final protected function memoize(\$key, callable \$callback)
+			{
+				return \$callback();
+			}
+		
+		}
+		TRAIT);
+
 	}
 
 }
