@@ -11,8 +11,8 @@ require __DIR__ . '/../vendor/autoload.php';
 
 Assert::false(trait_exists(Memoize\MemoryStorage::class, false));
 
-Memoize\Helpers::bypassMemoize();
-Memoize\Helpers::bypassMemoize();
+Memoize\Helper::bypassMemoize();
+Memoize\Helper::bypassMemoize();
 
 $object = new class {
 

@@ -2,26 +2,28 @@
 
 namespace h4kuna\Memoize;
 
+/**
+ * @phpstan-import-type keyType from Helper
+ */
 trait MemoryStorage
 {
-	/** @var array<string, mixed> */
-	private array $memoryStorage = [];
-
+	private ?StorageInterface $internalStorage = null;
 
 	/**
 	 * @template T
-	 * @param string|int|float|array<string|int|float> $key - keyType
+	 * @param keyType       $key
 	 * @param callable(): T $callback
+	 *
 	 * @return T
 	 */
 	final protected function memoize($key, callable $callback)
 	{
-		$key = Helpers::resolveKey($key);
-		if (array_key_exists($key, $this->memoryStorage) === false) {
-			return $this->memoryStorage[$key] = $callback();
-		}
+		return Helper::resolveValue($this->getInternalStorage(), $key, $callback);
+	}
 
-		return $this->memoryStorage[$key];
+	final protected function getInternalStorage(): StorageInterface
+	{
+		return $this->internalStorage ??= Helper::createStorage();
 	}
 
 }

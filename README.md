@@ -114,9 +114,9 @@ class Baz {
 
 ### Disable Memoize in tests
 
-You can disable Memoize for tests in bootstrap. 
+You can disable Memoize for tests in bootstrap.
 
 ```php
-use h4kuna\Memoize\Helpers;
-Helpers::bypassMemoize();
+use h4kuna\Memoize\Helper;
+Helper::bypassMemoize();
 ```
