@@ -1,6 +1,26 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Parameter \\#1 \\$key of method class@anonymous/tests/BasicBypassTest\\.php\\:17\\:\\:memoize\\(\\) expects array\\<float\\|int\\|string\\>\\|float\\|int\\|string, true given\\.$#"
+			message: "#^Method class@anonymous/tests/src/MemoizeStaticTest\\.php\\:17\\:\\:memoize\\(\\) has no return type specified\\.$#"
 			count: 1
-			path: tests/BasicBypassTest.php
+			path: tests/src/MemoizeStaticTest.php
+
+		-
+			message: "#^Method class@anonymous/tests/src/MemoizeStaticTest\\.php\\:17\\:\\:memoize\\(\\) has parameter \\$key with no type specified\\.$#"
+			count: 1
+			path: tests/src/MemoizeStaticTest.php
+
+		-
+			message: "#^Property class@anonymous/tests/src/MemoizeStaticTest\\.php\\:17\\:\\:\\$_internalCaches type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/src/MemoizeStaticTest.php
+
+		-
+			message: "#^Method class@anonymous/tests/src/MemoizeTest\\.php\\:17\\:\\:memoize\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: tests/src/MemoizeTest.php
+
+		-
+			message: "#^Method class@anonymous/tests/src/MemoizeTest\\.php\\:17\\:\\:memoize\\(\\) has parameter \\$key with no type specified\\.$#"
+			count: 1
+			path: tests/src/MemoizeTest.php

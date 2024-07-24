@@ -52,7 +52,7 @@ class Foo
 
 class Foo
 {
-	use h4kuna\Memoize\MemoryStorage;
+	use h4kuna\Memoize\Memoize;
 
 	public function loadDataFromDatabase()
 	{
@@ -75,11 +75,11 @@ class Foo
 
 ### Static use case
 
-The similar class can be used for static class. 
+The similar class can be used for static class.
 
 ```php
 class Bar {
-	use h4kuna\Memoize\MemoryStorageStatic
+	use h4kuna\Memoize\MemoizeStatic
 
 	public static function loadDataFromDatabaseByUser($userId)
 	{
@@ -95,9 +95,9 @@ This case is unlikely, so the names are the same. You can resolve by alias.
 
 ```php
 class Baz {
-	use Memoize\MemoryStorage, Memoize\MemoryStorageStatic {
-		Memoize\MemoryStorage::memoize insteadof Memoize\MemoryStorageStatic;
-		Memoize\MemoryStorageStatic::memoize as memoizeStatic;
+	use Memoize\Memoize, Memoize\MemoizeStatic {
+		Memoize\Memoize::memoize insteadof Memoize\MemoizeStatic;
+		Memoize\MemoizeStatic::memoize as memoizeStatic;
 	}
 	
 	public function foo(): 

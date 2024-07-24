@@ -9,18 +9,28 @@
       "email": "milan.matejcek@gmail.com"
     }
   ],
+  "require": {
+    "php": ">=8.0.0",
+    "psr/simple-cache": "^3.0"
+  },
   "require-dev": {
-    "nette/tester": "^2.0",
     "phpstan/phpstan": "^1.9",
-    "phpstan/phpstan-strict-rules": "^1.4"
+    "phpstan/phpstan-strict-rules": "^1.4",
+    "phpunit/phpunit": "^11.2"
   },
   "scripts": {
-    "phpstan": "./vendor/bin/phpstan analyse",
-    "tests": "vendor/bin/tester -s -j 4 --colors 1 -s -C tests"
+    "phpstan": "vendor/bin/phpstan analyse",
+    "tests": "vendor/bin/phpunit tests/src"
   },
   "autoload": {
     "psr-4": {
-      "h4kuna\\Memoize\\": "src/"
+      "h4kuna\\Memoize\\": "src"
+    },
+    "files": ["aliases.php"]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "h4kuna\\Memoize\\Tests\\": "tests/src"
     }
   }
 }

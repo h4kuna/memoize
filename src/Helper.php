@@ -2,29 +2,32 @@
 
 namespace h4kuna\Memoize;
 
-use h4kuna\Memoize\Storage\DevNull;
-use h4kuna\Memoize\Storage\Memory;
+use DateInterval;
+use DateTime;
+use h4kuna\Memoize\Cache\DevNull;
+use h4kuna\Memoize\Cache\MemoryCache;
+use Psr\SimpleCache\CacheInterface;
 
 /**
  * @phpstan-type keyType string|int|float|array<string|int|float>
  */
 final class Helper
 {
-	/** @var class-string<StorageInterface>|(callable(): StorageInterface) */
-	public static $class = Memory::class;
+	/** @var class-string<CacheInterface>|(callable(): CacheInterface) */
+	public static $class = MemoryCache::class;
 	public static string $delimiter = "\x00";
 
 	/**
 	 * @param keyType $key
 	 */
-	public static function resolveValue(StorageInterface $storage, $key, callable $callback): mixed
+	public static function resolveValue(CacheInterface $cache, $key, callable $callback, null|int|DateInterval $ttl = null): mixed
 	{
 		$key = is_array($key) ? implode(self::$delimiter, $key) : (string) $key;
-		if ($storage->offsetExists($key) === false) {
-			$storage->offsetSet($key, $callback());
+		if ($cache->has($key) === false) {
+			$cache->set($key, $callback(), $ttl);
 		}
 
-		return $storage->offsetGet($key);
+		return $cache->get($key);
 	}
 
 
@@ -38,12 +41,24 @@ final class Helper
 		}
 	}
 
-	public static function createStorage(): StorageInterface
+	public static function createCache(): CacheInterface
 	{
 		$object = is_string(Helper::$class) ? new Helper::$class() : (Helper::$class)();
-		assert($object instanceof StorageInterface);
+		assert($object instanceof CacheInterface);
 
 		return $object;
+	}
+
+
+	public static function ttlToSeconds(null|int|DateInterval $ttl = null): ?int
+	{
+		if ($ttl === null) {
+			return null;
+		} elseif ($ttl instanceof DateInterval) {
+			return (new DateTime)->add($ttl)->getTimestamp();
+		}
+
+		return $ttl + time();
 	}
 
 }
