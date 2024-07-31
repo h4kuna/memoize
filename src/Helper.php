@@ -22,12 +22,20 @@ final class Helper
 	 */
 	public static function resolveValue(CacheInterface $cache, $key, callable $callback, null|int|DateInterval $ttl = null): mixed
 	{
-		$key = is_array($key) ? implode(self::$delimiter, $key) : (string) $key;
+		$key = self::buildKey($key);
 		if ($cache->has($key) === false) {
 			$cache->set($key, $callback(), $ttl);
 		}
 
 		return $cache->get($key);
+	}
+
+	/**
+	 * @param keyType $key
+	 */
+	public static function buildKey($key): string
+	{
+		return is_array($key) ? implode(self::$delimiter, $key) : (string) $key;
 	}
 
 
