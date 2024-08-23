@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace h4kuna\Memoize\Tests\Cache;
 
 use DateTime;
-use h4kuna\Memoize\Cache\MemoryCache;
+use h4kuna\Memoize\PSR16\MemoryCache;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
 
 final class MemoryCacheTest extends TestCase
 {
@@ -58,12 +57,20 @@ final class MemoryCacheTest extends TestCase
 		Assert::assertFalse($cache->has('b'));
 	}
 
-	public function testNotImplemented(): void
+	public function testDeleteMultiple(): void
 	{
 		$cache = new MemoryCache();
-		$notImplemented = new RuntimeException('Not implemented');
-		assertException(static fn () => $cache->deleteMultiple([]), $notImplemented);
-		assertException(static fn () => $cache->setMultiple([]), $notImplemented);
-		assertException(static fn () => $cache->getMultiple([]), $notImplemented);
+
+		$data = iterator_to_array($cache->getMultiple(['a', 'b', 'c'], -1));
+		Assert::assertSame(['a' => -1, 'b' => -1, 'c' => -1], $data);
+
+		$cache->setMultiple(['a' => 1, 'b' => 2, 'c' => 3]);
+		$data = iterator_to_array($cache->getMultiple(['a', 'b', 'c'], -1));
+		Assert::assertSame(['a' => 1, 'b' => 2, 'c' => 3], $data);
+
+		$cache->deleteMultiple(['a', 'b']);
+		Assert::assertFalse($cache->has('a'));
+		Assert::assertFalse($cache->has('b'));
+		Assert::assertTrue($cache->has('c'));
 	}
 }

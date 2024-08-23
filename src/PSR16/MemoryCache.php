@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace h4kuna\Memoize\Cache;
+namespace h4kuna\Memoize\PSR16;
 
 use DateInterval;
+use Generator;
 use h4kuna\Memoize\Helper;
 use Psr\SimpleCache\CacheInterface;
-use RuntimeException;
 
 final class MemoryCache implements CacheInterface
 {
@@ -47,21 +47,36 @@ final class MemoryCache implements CacheInterface
 		return true;
 	}
 
-	public function getMultiple(iterable $keys, mixed $default = null): iterable
+	/**
+	 * @param iterable<string> $keys
+	 *
+	 * @return Generator<string, mixed>
+	 */
+	public function getMultiple(iterable $keys, mixed $default = null): Generator
 	{
-		throw new RuntimeException('Not implemented');
+		foreach ($keys as $key) {
+			yield $key => $this->get($key, $default);
+		}
 	}
 
 	/**
-	 * @param iterable<mixed> $values
+	 * @param iterable<string, mixed> $values
 	 */
 	public function setMultiple(iterable $values, null|int|DateInterval $ttl = null): bool
 	{
-		throw new RuntimeException('Not implemented');
+		foreach ($values as $key => $value) {
+			$this->set($key, $value, $ttl);
+		}
+
+		return true;
 	}
 
 	public function deleteMultiple(iterable $keys): bool
 	{
-		throw new RuntimeException('Not implemented');
+		foreach ($keys as $key) {
+			$this->delete($key);
+		}
+
+		return true;
 	}
 }

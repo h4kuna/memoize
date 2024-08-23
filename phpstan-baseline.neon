@@ -1,6 +1,11 @@
 parameters:
 	ignoreErrors:
 		-
+			message: "#^Parameter \\#1 \\$values \\(iterable\\<string, mixed\\>\\) of method h4kuna\\\\Memoize\\\\PSR16\\\\MemoryCache\\:\\:setMultiple\\(\\) should be contravariant with parameter \\$values \\(iterable\\) of method Psr\\\\SimpleCache\\\\CacheInterface\\:\\:setMultiple\\(\\)$#"
+			count: 1
+			path: src/PSR16/MemoryCache.php
+
+		-
 			message: "#^Method class@anonymous/tests/src/MemoizeStaticTest\\.php\\:17\\:\\:memoize\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/src/MemoizeStaticTest.php

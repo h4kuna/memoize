@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace h4kuna\Memoize\Tests;
 
 use DateTime;
-use h4kuna\Memoize\Cache\DevNull;
+use h4kuna\Memoize\PSR16\DevNull;
 use h4kuna\Memoize\Helper;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;

@@ -19,7 +19,7 @@
     "phpunit/phpunit": "^11.2"
   },
   "scripts": {
-    "phpstan": "vendor/bin/phpstan analyse",
+    "stan": "vendor/bin/phpstan analyse",
     "tests": "vendor/bin/phpunit tests/src"
   },
   "autoload": {

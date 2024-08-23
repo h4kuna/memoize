@@ -4,8 +4,8 @@ namespace h4kuna\Memoize;
 
 use DateInterval;
 use DateTime;
-use h4kuna\Memoize\Cache\DevNull;
-use h4kuna\Memoize\Cache\MemoryCache;
+use h4kuna\Memoize\PSR16\DevNull;
+use h4kuna\Memoize\PSR16\MemoryCache;
 use Psr\SimpleCache\CacheInterface;
 
 /**

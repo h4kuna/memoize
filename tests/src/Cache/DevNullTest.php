@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace h4kuna\Memoize\Tests\Cache;
 
-use h4kuna\Memoize\Cache\DevNull;
+use h4kuna\Memoize\PSR16\DevNull;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;

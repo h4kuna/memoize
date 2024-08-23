@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace h4kuna\Memoize\Cache;
+namespace h4kuna\Memoize\PSR16;
 
 use DateInterval;
 use Psr\SimpleCache\CacheInterface;
