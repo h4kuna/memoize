@@ -19,6 +19,8 @@
     "phpunit/phpunit": "^11.2"
   },
   "scripts": {
+    "coverage": "vendor/bin/tester --coverage coverage.html --coverage-src src/ --colors 1 -s -C tests/src",
+    "qa": ["composer stan", "composer tests"],
     "stan": "vendor/bin/phpstan analyse",
     "tests": "vendor/bin/phpunit tests/src"
   },
