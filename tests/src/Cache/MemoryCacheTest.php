@@ -40,8 +40,8 @@ final class MemoryCacheTest extends TestCase
 
 		// intentionally
 		Assert::assertSame(1, $cache->get($k1, 0));
-		Assert::assertSame(2, $cache->get($k2, 0));
-		Assert::assertSame(3, $cache->get($k3, 0));
+		Assert::assertSame(0, $cache->get($k2, 0));
+		Assert::assertSame(0, $cache->get($k3, 0));
 
 		$cache->delete($k1);
 		Assert::assertSame(0, $cache->get($k1, 0));

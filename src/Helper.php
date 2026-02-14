@@ -58,7 +58,7 @@ final class Helper
 	}
 
 
-	public static function ttlToSeconds(null|int|DateInterval $ttl = null): ?int
+	public static function ttlToExpire(null|int|DateInterval $ttl = null): ?int
 	{
 		if ($ttl === null) {
 			return null;

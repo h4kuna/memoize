@@ -45,11 +45,11 @@ final class HelperTest extends TestCase
 
 	public function testTtl(): void
 	{
-		Assert::assertNull(Helper::ttlToSeconds());
-		Assert::assertSame(time() + 1, Helper::ttlToSeconds(1));
-		Assert::assertSame(time() - 1, Helper::ttlToSeconds(-1));
-		Assert::assertSame(time() + 1, Helper::ttlToSeconds((new DateTime)->diff(new DateTime('+1 seconds'))));
-		Assert::assertSame(time() - 1, Helper::ttlToSeconds((new DateTime('+1 seconds'))->diff(new DateTime)));
+		Assert::assertNull(Helper::ttlToExpire());
+		Assert::assertSame(time() + 1, Helper::ttlToExpire(1));
+		Assert::assertSame(time() - 1, Helper::ttlToExpire(-1));
+		Assert::assertSame(time() + 1, Helper::ttlToExpire((new DateTime)->diff(new DateTime('+1 seconds'))));
+		Assert::assertSame(time() - 1, Helper::ttlToExpire((new DateTime('+1 seconds'))->diff(new DateTime)));
 	}
 
 }

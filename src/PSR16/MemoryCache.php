@@ -10,25 +10,35 @@ use Psr\SimpleCache\CacheInterface;
 final class MemoryCache implements CacheInterface
 {
 	private const KeyValue = 0;
-	private const KeyTtl = 1;
+	private const KeyExpire = 1;
 
 	/** @var array<string, array{mixed, ?int}> */
 	private array $data = [];
 
 	public function get(string $key, mixed $default = null): mixed
 	{
-		return $this->data[$key][self::KeyValue] ?? $default;
+        if ($this->has($key)) {
+            return $this->data[$key][self::KeyValue];
+        }
+
+        return $default;
 	}
 
 	public function has(string $key): bool
 	{
-		return array_key_exists($key, $this->data)
-			&& ($this->data[$key][self::KeyTtl] === null || $this->data[$key][self::KeyTtl] >= time());
+        if (array_key_exists($key, $this->data)) {
+            if (($this->data[$key][self::KeyExpire] === null || $this->data[$key][self::KeyExpire] >= time())) {
+                return true;
+            }
+            $this->delete($key);
+        }
+
+        return false;
 	}
 
 	public function set(string $key, mixed $value, null|int|DateInterval $ttl = null): bool
 	{
-		$this->data[$key] = [self::KeyValue => $value, self::KeyTtl => Helper::ttlToSeconds($ttl)];
+		$this->data[$key] = [self::KeyValue => $value, self::KeyExpire => Helper::ttlToExpire($ttl)];
 
 		return true;
 	}
