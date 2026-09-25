@@ -3,6 +3,8 @@
 [![Downloads this Month](https://img.shields.io/packagist/dm/h4kuna/memoize.svg)](https://packagist.org/packages/h4kuna/memoize)
 [![Latest stable](https://img.shields.io/packagist/v/h4kuna/memoize.svg)](https://packagist.org/packages/h4kuna/memoize)
 
+Part of the [h4kuna PHP libraries](https://github.com/h4kuna/library), see the overview of all packages.
+
 Is one trait whose provide cache to memory for classes. This is abstract standard use case how cache data for one request. Example is below.
 
 Api is easy where is one method **memoize** where first parameter is unique key string or array and second parameter is callback. This trait clear class.
