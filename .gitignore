@@ -1,6 +1,7 @@
 composer.lock
 vendor/
 /.phpunit.result.cache
+/var/
 coverage.html
 coverage.xml
 coverage.json

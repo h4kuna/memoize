@@ -16,13 +16,8 @@
   "require-dev": {
     "phpstan/phpstan": "^2.1",
     "phpstan/phpstan-strict-rules": "^2.0",
-    "phpunit/phpunit": "^9.6 || ^10.5 || ^11.2 || ^12.0"
-  },
-  "scripts": {
-    "coverage": "XDEBUG_MODE=coverage vendor/bin/phpunit tests/src --coverage-filter src --coverage-html coverage.html",
-    "qa": ["composer stan", "composer tests"],
-    "stan": "vendor/bin/phpstan analyse",
-    "tests": "vendor/bin/phpunit tests/src"
+    "phpunit/phpunit": "^9.6 || ^10.5 || ^11.2 || ^12.0",
+    "shipmonk/coding-standard": "^0.2"
   },
   "autoload": {
     "psr-4": {
@@ -33,5 +28,23 @@
     "psr-4": {
       "h4kuna\\Memoize\\Tests\\": "tests/src"
     }
+  },
+  "config": {
+    "sort-packages": true,
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  },
+  "scripts": {
+    "cbf": "vendor/bin/phpcbf",
+    "coverage": "XDEBUG_MODE=coverage vendor/bin/phpunit tests/src --coverage-filter src --coverage-html coverage.html",
+    "cs": "vendor/bin/phpcs",
+    "qa": [
+      "@tests",
+      "@cs",
+      "@stan"
+    ],
+    "stan": "vendor/bin/phpstan analyse",
+    "tests": "vendor/bin/phpunit tests/src"
   }
 }
