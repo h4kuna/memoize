@@ -29,9 +29,11 @@ final class MemoizeStaticTest extends TestCase
 	public function testBasic(): void
 	{
 		$start = microtime(true);
-		Assert::assertSame(10, StaticClass::foo());
-		Assert::assertSame(10, StaticClass::foo());
+		$first = StaticClass::foo();
+		$second = StaticClass::foo();
 		$diff = microtime(true) - $start;
+		Assert::assertSame(10, $first);
+		Assert::assertSame(10, $second);
 		Assert::assertSame(1, (int) round($diff));
 
 		Assert::assertSame(11, MixedClass::fooStatic());

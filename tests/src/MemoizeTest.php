@@ -30,9 +30,11 @@ final class MemoizeTest extends TestCase
 	{
 		$class = new NormalClass();
 		$start = microtime(true);
-		Assert::assertSame(10, $class->foo());
-		Assert::assertSame(10, $class->foo());
+		$first = $class->foo();
+		$second = $class->foo();
 		$diff = microtime(true) - $start;
+		Assert::assertSame(10, $first);
+		Assert::assertSame(10, $second);
 		Assert::assertSame(1, (int) round($diff));
 
 		Assert::assertSame(12, (new MixedClass())->foo());
