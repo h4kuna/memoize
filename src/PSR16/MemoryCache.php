@@ -70,11 +70,17 @@ final class MemoryCache implements CacheInterface
 	}
 
 	/**
-	 * @param iterable<string, mixed> $values
+	 * @param iterable<mixed> $values
 	 */
 	public function setMultiple(iterable $values, null|int|DateInterval $ttl = null): bool
 	{
 		foreach ($values as $key => $value) {
+			if (is_int($key)) {
+				$key = (string) $key; // numeric string keys are converted to int by PHP arrays
+			} elseif (!is_string($key)) {
+				throw new InvalidArgumentException('Cache key must be a string.');
+			}
+
 			$this->set($key, $value, $ttl);
 		}
 
