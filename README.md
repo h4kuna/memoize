@@ -5,14 +5,14 @@
 
 Part of the [h4kuna PHP libraries](https://github.com/h4kuna/library), see the overview of all packages.
 
-Is one trait whose provide cache to memory for classes. This is abstract standard use case how cache data for one request. Example is below.
+A trait that provides an in-memory cache for your classes. It covers the common use case of caching data for the duration of one request. See the example below.
 
-Api is easy where is one method **memoize** where first parameter is unique key string or array and second parameter is callback. This trait clear class.
+The API is simple, there is one method **memoize**. The first parameter is a unique key (string or array), the second parameter is a callback and the optional third parameter is a TTL (seconds or `DateInterval`). The trait keeps your class clean, without extra properties for cached values.
 
-Install by composer
+Install by composer, requires PHP 8.0 or newer.
 
-```
-$ composer require h4kuna/memoize
+```bash
+composer require h4kuna/memoize
 ```
 
 ### Standard use case
@@ -72,16 +72,15 @@ class Foo
 	}
 
 }
-
 ```
 
 ### Static use case
 
-The similar class can be used for static class.
+A similar trait can be used for static methods.
 
 ```php
 class Bar {
-	use h4kuna\Memoize\MemoizeStatic
+	use h4kuna\Memoize\MemoizeStatic;
 
 	public static function loadDataFromDatabaseByUser($userId)
 	{
@@ -93,23 +92,25 @@ class Bar {
 ```
 
 ### Use both traits
-This case is unlikely, so the names are the same. You can resolve by alias.
+This case is unlikely, and both traits have a method with the same name. You can resolve the conflict by an alias.
 
 ```php
+use h4kuna\Memoize;
+
 class Baz {
 	use Memoize\Memoize, Memoize\MemoizeStatic {
 		Memoize\Memoize::memoize insteadof Memoize\MemoizeStatic;
 		Memoize\MemoizeStatic::memoize as memoizeStatic;
 	}
-	
-	public function foo(): 
+
+	public function foo(): string
 	{
-		return $this->memoize();
+		return $this->memoize(__METHOD__, fn () => 'foo');
 	}
-	
-	public static function bar(): 
+
+	public static function bar(): string
 	{
-		return static::memoizeStatic();
+		return static::memoizeStatic(__METHOD__, fn () => 'bar');
 	}
 }
 ```
