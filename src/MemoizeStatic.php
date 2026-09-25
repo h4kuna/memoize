@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace h4kuna\Memoize;
 
@@ -10,17 +10,24 @@ use Psr\SimpleCache\CacheInterface;
  */
 trait MemoizeStatic
 {
-	/** @var array<string, CacheInterface> */
+
+	/**
+	 * @var array<string, CacheInterface>
+	 */
 	private static array $_internalCaches = [];
 
 	/**
-	 * @template T
-	 * @param keyType       $key
+	 * @param keyType $key
 	 * @param callable(): T $callback
-	 *
 	 * @return T
+	 *
+	 * @template T
 	 */
-	final protected static function memoize($key, callable $callback, null|int|DateInterval $ttl = null)
+	final protected static function memoize(
+		$key,
+		callable $callback,
+		int|DateInterval|null $ttl = null,
+	)
 	{
 		return Helper::resolveValue(static::staticInternalCache(), $key, $callback, $ttl);
 	}

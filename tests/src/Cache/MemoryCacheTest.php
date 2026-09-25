@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace h4kuna\Memoize\Tests\Cache;
 
@@ -8,9 +6,12 @@ use DateTime;
 use h4kuna\Memoize\PSR16\MemoryCache;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
+use function iterator_to_array;
+use function sleep;
 
 final class MemoryCacheTest extends TestCase
 {
+
 	public function testCache(): void
 	{
 		$k1 = 'a';
@@ -23,7 +24,7 @@ final class MemoryCacheTest extends TestCase
 
 		Assert::assertTrue($cache->set($k1, 1));
 		Assert::assertTrue($cache->set($k2, 2, 2));
-		Assert::assertTrue($cache->set($k3, 3, (new DateTime)->diff(new DateTime('+2 seconds'))));
+		Assert::assertTrue($cache->set($k3, 3, (new DateTime())->diff(new DateTime('+2 seconds'))));
 
 		Assert::assertSame(1, $cache->get($k1, 0));
 		Assert::assertSame(2, $cache->get($k2, 0));
@@ -73,4 +74,5 @@ final class MemoryCacheTest extends TestCase
 		Assert::assertFalse($cache->has('b'));
 		Assert::assertTrue($cache->has('c'));
 	}
+
 }

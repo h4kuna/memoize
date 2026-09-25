@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace h4kuna\Memoize\PSR16;
 
@@ -6,39 +6,53 @@ use DateInterval;
 use Generator;
 use h4kuna\Memoize\Helper;
 use Psr\SimpleCache\CacheInterface;
+use function array_key_exists;
+use function is_int;
+use function is_string;
+use function time;
 
 final class MemoryCache implements CacheInterface
 {
-	private const KeyValue = 0;
-	private const KeyExpire = 1;
 
-	/** @var array<string, array{mixed, ?int}> */
+	private const KEY_VALUE = 0;
+	private const KEY_EXPIRE = 1;
+
+	/**
+	 * @var array<string, array{mixed, ?int}>
+	 */
 	private array $data = [];
 
-	public function get(string $key, mixed $default = null): mixed
+	public function get(
+		string $key,
+		mixed $default = null,
+	): mixed
 	{
-        if ($this->has($key)) {
-            return $this->data[$key][self::KeyValue];
-        }
+		if ($this->has($key)) {
+			return $this->data[$key][self::KEY_VALUE];
+		}
 
-        return $default;
+		return $default;
 	}
 
 	public function has(string $key): bool
 	{
-        if (array_key_exists($key, $this->data)) {
-            if (($this->data[$key][self::KeyExpire] === null || $this->data[$key][self::KeyExpire] >= time())) {
-                return true;
-            }
-            $this->delete($key);
-        }
+		if (array_key_exists($key, $this->data)) {
+			if (($this->data[$key][self::KEY_EXPIRE] === null || $this->data[$key][self::KEY_EXPIRE] >= time())) {
+				return true;
+			}
+			$this->delete($key);
+		}
 
-        return false;
+		return false;
 	}
 
-	public function set(string $key, mixed $value, null|int|DateInterval $ttl = null): bool
+	public function set(
+		string $key,
+		mixed $value,
+		int|DateInterval|null $ttl = null,
+	): bool
 	{
-		$this->data[$key] = [self::KeyValue => $value, self::KeyExpire => Helper::ttlToExpire($ttl)];
+		$this->data[$key] = [self::KEY_VALUE => $value, self::KEY_EXPIRE => Helper::ttlToExpire($ttl)];
 
 		return true;
 	}
@@ -59,10 +73,12 @@ final class MemoryCache implements CacheInterface
 
 	/**
 	 * @param iterable<string> $keys
-	 *
 	 * @return Generator<string, mixed>
 	 */
-	public function getMultiple(iterable $keys, mixed $default = null): Generator
+	public function getMultiple(
+		iterable $keys,
+		mixed $default = null,
+	): Generator
 	{
 		foreach ($keys as $key) {
 			yield $key => $this->get($key, $default);
@@ -72,7 +88,10 @@ final class MemoryCache implements CacheInterface
 	/**
 	 * @param iterable<mixed> $values
 	 */
-	public function setMultiple(iterable $values, null|int|DateInterval $ttl = null): bool
+	public function setMultiple(
+		iterable $values,
+		int|DateInterval|null $ttl = null,
+	): bool
 	{
 		foreach ($values as $key => $value) {
 			if (is_int($key)) {
@@ -95,4 +114,5 @@ final class MemoryCache implements CacheInterface
 
 		return true;
 	}
+
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace h4kuna\Memoize;
 
@@ -7,20 +7,33 @@ use DateTime;
 use h4kuna\Memoize\PSR16\DevNull;
 use h4kuna\Memoize\PSR16\MemoryCache;
 use Psr\SimpleCache\CacheInterface;
+use function assert;
+use function implode;
+use function is_array;
+use function is_string;
+use function time;
 
 /**
  * @phpstan-type keyType string|int|float|array<string|int|float>
  */
 final class Helper
 {
-	/** @var class-string<CacheInterface>|(callable(): CacheInterface) */
+
+	/**
+	 * @var class-string<CacheInterface>|(callable(): CacheInterface)
+	 */
 	public static $class = MemoryCache::class;
 	public static string $delimiter = "\x00";
 
 	/**
 	 * @param keyType $key
 	 */
-	public static function resolveValue(CacheInterface $cache, $key, callable $callback, null|int|DateInterval $ttl = null): mixed
+	public static function resolveValue(
+		CacheInterface $cache,
+		$key,
+		callable $callback,
+		int|DateInterval|null $ttl = null,
+	): mixed
 	{
 		$key = self::buildKey($key);
 		if ($cache->has($key) === false) {
@@ -38,32 +51,30 @@ final class Helper
 		return is_array($key) ? implode(self::$delimiter, $key) : (string) $key;
 	}
 
-
 	/**
 	 * This is only for tests
 	 */
 	public static function bypassMemoize(): void
 	{
-		if (Helper::$class !== DevNull::class) {
-			Helper::$class = DevNull::class;
+		if (self::$class !== DevNull::class) {
+			self::$class = DevNull::class;
 		}
 	}
 
 	public static function createCache(): CacheInterface
 	{
-		$object = is_string(Helper::$class) ? new Helper::$class() : (Helper::$class)();
+		$object = is_string(self::$class) ? new self::$class() : (self::$class)();
 		assert($object instanceof CacheInterface);
 
 		return $object;
 	}
 
-
-	public static function ttlToExpire(null|int|DateInterval $ttl = null): ?int
+	public static function ttlToExpire(int|DateInterval|null $ttl = null): ?int
 	{
 		if ($ttl === null) {
 			return null;
 		} elseif ($ttl instanceof DateInterval) {
-			return (new DateTime)->add($ttl)->getTimestamp();
+			return (new DateTime())->add($ttl)->getTimestamp();
 		}
 
 		return $ttl + time();

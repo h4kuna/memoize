@@ -1,17 +1,17 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace h4kuna\Memoize\Tests;
 
 use DateTime;
-use h4kuna\Memoize\PSR16\DevNull;
 use h4kuna\Memoize\Helper;
+use h4kuna\Memoize\PSR16\DevNull;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
+use function time;
 
 final class HelperTest extends TestCase
 {
+
 	public function testResolveValue(): void
 	{
 		$cache = Helper::createCache();
@@ -48,8 +48,8 @@ final class HelperTest extends TestCase
 		Assert::assertNull(Helper::ttlToExpire());
 		Assert::assertSame(time() + 1, Helper::ttlToExpire(1));
 		Assert::assertSame(time() - 1, Helper::ttlToExpire(-1));
-		Assert::assertSame(time() + 1, Helper::ttlToExpire((new DateTime)->diff(new DateTime('+1 seconds'))));
-		Assert::assertSame(time() - 1, Helper::ttlToExpire((new DateTime('+1 seconds'))->diff(new DateTime)));
+		Assert::assertSame(time() + 1, Helper::ttlToExpire((new DateTime())->diff(new DateTime('+1 seconds'))));
+		Assert::assertSame(time() - 1, Helper::ttlToExpire((new DateTime('+1 seconds'))->diff(new DateTime())));
 	}
 
 }

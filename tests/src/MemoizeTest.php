@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace h4kuna\Memoize\Tests;
 
@@ -9,18 +7,23 @@ use h4kuna\Memoize\Tests\Fixtures\MixedClass;
 use h4kuna\Memoize\Tests\Fixtures\NormalClass;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
+use function microtime;
+use function round;
 
 final class MemoizeTest extends TestCase
 {
+
 	public function testBackCompatibility(): void
 	{
 		$a = new class {
+
 			use MemoryStorage;
 
 			public function foo(): int
 			{
 				return $this->memoize('id', static fn (): int => 13);
 			}
+
 		};
 
 		Assert::assertSame(13, $a->foo());

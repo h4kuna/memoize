@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace h4kuna\Memoize\Cache;
 
@@ -6,29 +6,41 @@ use DateInterval;
 use h4kuna\Memoize\Helper;
 use Psr\SimpleCache\CacheInterface;
 use RuntimeException;
+use function array_key_exists;
+use function time;
 
 final class MemoryCache implements CacheInterface
 {
-	private const KeyValue = 0;
-	private const KeyTtl = 1;
 
-	/** @var array<string, array{mixed, ?int}> */
+	private const KEY_VALUE = 0;
+	private const KEY_TTL = 1;
+
+	/**
+	 * @var array<string, array{mixed, ?int}>
+	 */
 	private array $data = [];
 
-	public function get(string $key, mixed $default = null): mixed
+	public function get(
+		string $key,
+		mixed $default = null,
+	): mixed
 	{
-		return $this->data[$key][self::KeyValue] ?? $default;
+		return $this->data[$key][self::KEY_VALUE] ?? $default;
 	}
 
 	public function has(string $key): bool
 	{
 		return array_key_exists($key, $this->data)
-			&& ($this->data[$key][self::KeyTtl] === null || $this->data[$key][self::KeyTtl] >= time());
+			&& ($this->data[$key][self::KEY_TTL] === null || $this->data[$key][self::KEY_TTL] >= time());
 	}
 
-	public function set(string $key, mixed $value, null|int|DateInterval $ttl = null): bool
+	public function set(
+		string $key,
+		mixed $value,
+		int|DateInterval|null $ttl = null,
+	): bool
 	{
-		$this->data[$key] = [self::KeyValue => $value, self::KeyTtl => Helper::ttlToExpire($ttl)];
+		$this->data[$key] = [self::KEY_VALUE => $value, self::KEY_TTL => Helper::ttlToExpire($ttl)];
 
 		return true;
 	}
@@ -47,7 +59,10 @@ final class MemoryCache implements CacheInterface
 		return true;
 	}
 
-	public function getMultiple(iterable $keys, mixed $default = null): iterable
+	public function getMultiple(
+		iterable $keys,
+		mixed $default = null,
+	): iterable
 	{
 		throw new RuntimeException('Not implemented');
 	}
@@ -55,7 +70,10 @@ final class MemoryCache implements CacheInterface
 	/**
 	 * @param iterable<mixed> $values
 	 */
-	public function setMultiple(iterable $values, null|int|DateInterval $ttl = null): bool
+	public function setMultiple(
+		iterable $values,
+		int|DateInterval|null $ttl = null,
+	): bool
 	{
 		throw new RuntimeException('Not implemented');
 	}
@@ -64,4 +82,5 @@ final class MemoryCache implements CacheInterface
 	{
 		throw new RuntimeException('Not implemented');
 	}
+
 }

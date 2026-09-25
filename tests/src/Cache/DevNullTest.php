@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace h4kuna\Memoize\Tests\Cache;
 
@@ -11,6 +9,7 @@ use RuntimeException;
 
 final class DevNullTest extends TestCase
 {
+
 	public function testCache(): void
 	{
 		$cache = new DevNull();
@@ -38,4 +37,5 @@ final class DevNullTest extends TestCase
 		assertException(static fn () => $cache->setMultiple([]), $notImplemented);
 		assertException(static fn () => $cache->getMultiple([]), $notImplemented);
 	}
+
 }

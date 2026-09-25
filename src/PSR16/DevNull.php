@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace h4kuna\Memoize\PSR16;
 
@@ -8,9 +8,13 @@ use RuntimeException;
 
 final class DevNull implements CacheInterface
 {
+
 	private mixed $value = null;
 
-	public function get(string $key, mixed $default = null): mixed
+	public function get(
+		string $key,
+		mixed $default = null,
+	): mixed
 	{
 		return $this->value ?? $default;
 	}
@@ -22,7 +26,11 @@ final class DevNull implements CacheInterface
 		return true;
 	}
 
-	public function set(string $key, mixed $value, null|int|DateInterval $ttl = null): bool
+	public function set(
+		string $key,
+		mixed $value,
+		int|DateInterval|null $ttl = null,
+	): bool
 	{
 		$this->value = $value;
 
@@ -36,7 +44,10 @@ final class DevNull implements CacheInterface
 		return true;
 	}
 
-	public function getMultiple(iterable $keys, mixed $default = null): iterable
+	public function getMultiple(
+		iterable $keys,
+		mixed $default = null,
+	): iterable
 	{
 		throw new RuntimeException('Not implemented');
 	}
@@ -44,7 +55,10 @@ final class DevNull implements CacheInterface
 	/**
 	 * @param iterable<mixed> $values
 	 */
-	public function setMultiple(iterable $values, null|int|DateInterval $ttl = null): bool
+	public function setMultiple(
+		iterable $values,
+		int|DateInterval|null $ttl = null,
+	): bool
 	{
 		throw new RuntimeException('Not implemented');
 	}
@@ -58,4 +72,5 @@ final class DevNull implements CacheInterface
 	{
 		return false;
 	}
+
 }
